@@ -95,13 +95,22 @@ namespace CRUDLibrary
             return true;
         }
         
+        public bool IsEmailValid(string username)
+        {
+            //with @
+            return true;
+        }
+        
         public bool IsUsernameValid(string username)
         {
+            //length
+            //must have num
             return true;
         }
 
         public bool IsPasswordValid(string password)
         {
+            //must have 1 upper, 1 lower, 1 num
             return true;
         }
 
