@@ -13,7 +13,21 @@ namespace CRUDLibrary
         {
             new User() { Username = "Myel", FirstName = "Mel", LastName = "Meji" }
         };
-        public List<User> GetAllUser()
+        
+        //private static UserControl _instance;
+
+        /**public static UserControl GetUserManager()
+        {
+            if(_instance == null)
+            {
+                _instance = new UserControl();
+            }
+
+            return _instance;
+        }**/
+
+        
+        public static List<User> GetAllUser()
         {
             if (userList != null)
             {
@@ -47,6 +61,7 @@ namespace CRUDLibrary
         {
             
         }
+        
         public static void UpdateUser(List<User> userList, User user)
         {
             User user_exist = userList.FirstOrDefault(u => u.UserId == user.UserId);
@@ -77,6 +92,16 @@ namespace CRUDLibrary
                 return false;
 
             }
+            return true;
+        }
+        
+        public bool IsUsernameValid(string username)
+        {
+            return true;
+        }
+
+        public bool IsPasswordValid(string password)
+        {
             return true;
         }
 
