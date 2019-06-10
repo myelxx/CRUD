@@ -45,9 +45,11 @@ namespace CRUDTests
             User newUser = new User { Username = "Myel", FirstName = "Melroese", LastName = "Mejidana" };
             UserControl.CreateNewUser(userList, newUser);
 
-            string actual = newUser.Username;
+            //int expected = userList.GetAllUser().GetSizeOfList() + 1; //create singleton
+            int expected = userList.GetSizeOfList() + 1;
+            int actual = userList.GetSizeOfList();
 
-            Assert.True(actual.Length > 0);
+            Assert.Equal(expected, actual);
             Assert.True(userList.Count == 1);
             Assert.Contains<User>(newUser, userList);
         }
