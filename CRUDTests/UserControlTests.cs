@@ -14,20 +14,36 @@ namespace CRUDTests
     {
         List<User> userList = new List<User>();
 
-        //email format
         //password format -> 1 upper, low, numeric
-
-
-        [Theory]
-        [InlineData("Myelxx", "Mel", "Meji")]
-        public void UpdateUser_ShouldNotAcceptExistingUsername(string userName, string firstName, string lastName)
+        /**
+        (?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$
+ 
+        ^             start of string
+        (?=.*[A-Z])   at least one upper case letter exists
+        (?=.*[a-z])   at least one lower case letter exists
+        (?=.*\d)      at least one digit exists
+        .+            match all other characters
+        $             end of string
+        
+        **/
+     
+        /**
+         public void CheckIfUsernameIsValid(string username, bool isValid)
         {
-            User newUser = new User { Username = userName, FirstName = firstName, LastName = lastName };
-
-            Assert.Throws<ArgumentException>("", () => UserControl.UpdateUser(userList, newUser));
+            bool actualResult = UserManager.GetUserManager().IsUsernameValid(username);
+            Assert.Equal(isValid, actualResult);
+        }
+        **/
+        
+        /**
+         public void CheckIfPasswordIsValid(string username, bool isValid)
+        {
 
         }
-
+        **/
+        
+        //check if lastname, firstname is not numeric
+     
         [Theory]
         [InlineData("Me", "Mel", "Meji", "Username")]
         public void CreateNewUser_ShouldNotExceedMaxLength(string userName, string firstName, string lastName, string param)
@@ -74,7 +90,49 @@ namespace CRUDTests
             bool isNotExist = UserControl.IsUserExist(userList, newUser);
             Assert.True(isNotExist);
         }
+        
+        [Theory]
+        [InlineData("Myelxx", "Mel", "Meji")]
+        public void UpdateUser_ShouldNotAcceptExistingUsername(string userName, string firstName, string lastName)
+        {
+            User newUser = new User { Username = userName, FirstName = firstName, LastName = lastName };
+            Assert.Throws<ArgumentException>("", () => UserControl.UpdateUser(userList, newUser));
+        }
+        
+        //update should fail
+        //if not valid username, firstname, lastname, password, email
+        //if empty
+        
+        //retrieve function
+        //should work if have values -> list.Count < 0
+        //should fail if empty -> list.Count > 0 
+        
+        //delete
+        //should work
+        [Theory]
+        [InlineData(2)]
+        public void DeleteUser_ShouldWork(int userId)
+        {
+            User newUser = new User { UserId = userId };
+            bool isExist = UserControl.IsUserExist(userList, newUser);
+            
+            //UserControl.DeleteUser(userList, newUser);
+            Assert.True(isExist);
+        }
+        
+        //should fail
+        [InlineData(2)]
+        public void DeleteUser_ShouldWork(int userId)
+        {
+            User newUser = new User { UserId = userId };
+            bool isExist = UserControl.IsUserExist(userList, newUser);
+            
+            Assert.True(!isExist);
+            Assert.Throws<ArgumentException>(param, () => UserControl.DeleteUser(userList, newUser));
+            
+        }
 
+        /**
         public class UserControlTestData : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
@@ -85,7 +143,7 @@ namespace CRUDTests
             }
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
-
+        **/
 
     }
 }
